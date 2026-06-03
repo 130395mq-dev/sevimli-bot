@@ -9,7 +9,7 @@ logging.basicConfig(
 )
 
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "8888202399:AAFwdWrj114id-ARauxYl4v8ScdCiV7rNLA")
-ORDER_URL = "https://b2b.moysklad.ru/public/Bya8IC3N6odI"
+ORDER_URL = os.environ.get("ORDER_URL", "https://b2b.moysklad.ru/public/Bya8IC3N6odI")
 
 MATN = """
 🎬 Mahsulot haqida batafsil ma'lumot!
@@ -27,7 +27,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
-    video_path = os.path.join(os.path.dirname(__file__), "IMG_0224.mp4")
+    # Faylni topish
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    video_path = os.path.join(base_dir, "IMG_0224.mp4")
+    
+    print(f"Video path: {video_path}")
+    print(f"File exists: {os.path.exists(video_path)}")
+    print(f"Files in dir: {os.listdir(base_dir)}")
 
     with open(video_path, "rb") as video_file:
         await update.message.reply_video(
